@@ -1,4 +1,10 @@
  /**
+ processing control a Marlin Delta 3D printer arm
+ by b.h. song
+ 190808149@qq.com
+ */
+ 
+ /**
  *processing control a 4-DOF mechanical arm
  *by jorneryChen 
  *
