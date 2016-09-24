@@ -16,12 +16,9 @@
  boolean serial;
  //输出参数
  float x=150;
- float y=0;
- float pos1,pos2;
- int pos=72;
- int pos3=90;
+ float z=0;
+ int y=90;
  int a=2;
- float posa;
  float A;
  float B;
  float C;
@@ -33,28 +30,19 @@
  {
    size(500,500);
    frameRate(53);
-   port=new Serial(this,"COM5",115200);
+   port=new Serial(this,"COM3",115200);
    //font=loadFont("LilyUPCBold-48.vlw");
    smooth();
  }
  void draw()
  {
-   math_funtion();
+
    inter_face();
    picture();
    control(); 
+   if(serial) send_data();
  }
- void math_funtion()
- {
-   A=sqrt(x*x+y*y);//数学方程
-   B=atan(y/x);
-   C=acos(A/300);
-   D=acos(1.0-A*A/45000);
-   D=D/pi*180;
-   posa=B+C;
-   pos1=posa/pi*180;
-   pos2=180-pos1-D;
- }
+
  void inter_face()
  {
     background(255);
@@ -78,24 +66,8 @@
    text(int(x),35,110);
    text("Y=",85,110);
    text(int(y),115,110);
-   text("POS=",5,140);
-   text(int(pos),60,140);
-   text("POS1=",105,140);
-   text(int(pos1),175,140);
-   text("POS2=",225,140);
-   text(int(pos2),295,140);
-   text("POS3=",345,140);
-   text(int(pos3),415,140);
-     if((keyPressed==true)&&(key=='i'))
-    {
-      fill(0,211,58);
-     text("opening",250,110);
-    }
-     else if((keyPressed==true)&&(key=='k'))
-     {
-       fill(0,211,58);
-      text("closing",250,110);
-     }
+   text("Z=",165,110);
+   text(int(z),195,110);
  }
  void picture()
  {
@@ -105,11 +77,11 @@
    ellipse(170,320,300,300);
    stroke(0);
    line(415,170,415,470);
-   float n=map(pos3,0,180,300,40);
-   float m=map(x,0,300,450,190);
+   float m=map(x,0,180,300,40);
+   float n=map(y,0,300,450,190);
    fill(0,0,150);
-   ellipse(n,m,30,30);
-   float l=map(y,-150,150,170,470);
+   ellipse(m,n,30,30);
+   float l=map(-z,-150,150,170,470);
    l=constrain(l,170,470);
    ellipse(415,l,30,30);
  }
@@ -117,70 +89,43 @@
  {
    if((keyPressed==true)&&(key=='a'))
    {
-     x-=a;
+     x+=a;
      serial=true;
    }
    else if((keyPressed==true)&&(key=='d'))
    {
-     x+=a;
+     x-=a;
      serial=true;
    }
    else if((keyPressed==true)&&(key=='w'))
    {
-     y-=a;
+     y+=a;
      serial=true;
    }
    else if((keyPressed==true)&&(key=='s'))
    {
-     y+=a;
+     y-=a;
+     serial=true;
+   }    
+   else if((keyPressed==true)&&(key=='i'))
+   {
+     z+=a;
      serial=true;
    }
-    else if((keyPressed==true)&&(key=='i'))
-    {
-      pos+=a;
-      pos=constrain(pos,72,160);
-      serial=true;
-    }
-     else if((keyPressed==true)&&(key=='k'))
-     {
-       pos-=a;
-       pos=constrain(pos,72,160);
-       serial=true;
-     }
-      else if((keyPressed==true)&&(key=='j'))
-      {
-        pos3+=1;
-        serial=true;
-      }
-       else if((keyPressed==true)&&(key=='l'))
-       {
-         pos3-=1;
-         serial=true;
-       }
-       if(serial){
-           send_data();
-       }
+   else if((keyPressed==true)&&(key=='k'))
+   {
+     z-=a;
+     serial=true;
+   }
+   
+
  }
+ 
  void send_data()
  {
-   print("pos=");
-   print(int(pos));
-   print(',');
-   print("pos1=");
-   print(int(pos1));
-   print(',');
-   print("pos2=");
-   print(int(pos2));
-   print(',');
-   print("pos3=");
-   println(pos3);
+   print("y=");
+   println(y);
    port.write('%');
-   port.write(int(pos));
- // port.write(';');
-   port.write(int(pos1));
- // port.write(';');
-   port.write(int(pos2));
- //  port.write(';');
-   port.write(int(pos3));
+   port.write(int(y));
    serial=false;
  }
