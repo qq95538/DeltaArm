@@ -13,11 +13,11 @@
 
  import processing.serial.*;
  Serial port;
- boolean serial;
+ boolean bToSend;
  String inString;
  int lf = 10;      // ASCII linefeed
- float x=150;
- float z=0;
+ int x=150;
+ int z=0;
  int y=90;
  int a=2;
  PFont font;
@@ -39,7 +39,7 @@
    inter_face();
    picture();
    control();
-   if(serial) send_data();
+   if(bToSend) send_data();
  }
 
  void inter_face()
@@ -67,7 +67,8 @@
    text(int(y),115,110);
    text("Z=",165,110);
    text(int(z),195,110);
-   text("received: " + inString, 4,140); 
+   text("received: " + inString, 4,140);
+   
  }
  void picture()
  {
@@ -90,32 +91,32 @@
    if((keyPressed==true)&&(key=='a'))
    {
      x+=a;
-     serial=true;
+     bToSend=true;
    }
    else if((keyPressed==true)&&(key=='d'))
    {
      x-=a;
-     serial=true;
+     bToSend=true;
    }
    else if((keyPressed==true)&&(key=='w'))
    {
      y+=a;
-     serial=true;
+     bToSend=true;
    }
    else if((keyPressed==true)&&(key=='s'))
    {
      y-=a;
-     serial=true;
+     bToSend=true;
    }    
    else if((keyPressed==true)&&(key=='i'))
    {
      z+=a;
-     serial=true;
+     bToSend=true;
    }
    else if((keyPressed==true)&&(key=='k'))
    {
      z-=a;
-     serial=true;
+     bToSend=true;
    }
    
 
@@ -123,13 +124,23 @@
  
  void send_data()
  {
-   print("y=");
-   println(y);
-   port.write('%');
-   port.write(int(y));
-   serial=false;
+   print("G1 S2");
+   print(" X"); print(x);
+   print(" Y"); print(y);
+   print(" Z"); print(z);
+   print(" F500");
+   println();
+   port.write("G1 S2");
+   port.write(" X"); port.write(x);
+   port.write(" Y"); port.write(y);
+   port.write(" Z"); port.write(z);
+   port.write(" F500");
+   port.write(10); //NL
+   port.write(13); //CR
+   bToSend=false;
  }
  
  void serialEvent(Serial p) { 
   inString = p.readString(); 
+  print(inString);
 } 
