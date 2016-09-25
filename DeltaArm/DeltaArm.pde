@@ -14,24 +14,23 @@
  import processing.serial.*;
  Serial port;
  boolean serial;
- //输出参数
+ String inString;
+ int lf = 10;      // ASCII linefeed
  float x=150;
  float z=0;
  int y=90;
  int a=2;
- float A;
- float B;
- float C;
- float D;
- float pi=acos(-1.0);
- //界面参数
  PFont font;
  void setup()
  {
    size(500,500);
    frameRate(53);
-   port=new Serial(this,"COM3",115200);
-   //font=loadFont("LilyUPCBold-48.vlw");
+   printArray(Serial.list()); 
+   port = new Serial(this, Serial.list()[0], 115200); 
+   port.bufferUntil(lf); 
+   //port=new Serial(this,"COM3",115200);
+
+   
    smooth();
  }
  void draw()
@@ -39,7 +38,7 @@
 
    inter_face();
    picture();
-   control(); 
+   control();
    if(serial) send_data();
  }
 
@@ -68,6 +67,7 @@
    text(int(y),115,110);
    text("Z=",165,110);
    text(int(z),195,110);
+   text("received: " + inString, 4,140); 
  }
  void picture()
  {
@@ -129,3 +129,7 @@
    port.write(int(y));
    serial=false;
  }
+ 
+ void serialEvent(Serial p) { 
+  inString = p.readString(); 
+} 
