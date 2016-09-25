@@ -28,7 +28,6 @@
    printArray(Serial.list()); 
    port = new Serial(this, Serial.list()[0], 115200); 
    port.bufferUntil(lf); 
-   //port=new Serial(this,"COM3",115200);
 
    
    smooth();
@@ -38,7 +37,6 @@
 
    inter_face();
    picture();
-   control();
    if(bToSend) send_data();
  }
 
@@ -86,42 +84,34 @@
    l=constrain(l,170,470);
    ellipse(415,l,30,30);
  }
- void control()
+ void keyPressed()
  {
-   if((keyPressed==true)&&(key=='a'))
-   {
-     x+=a;
-     bToSend=true;
-   }
-   else if((keyPressed==true)&&(key=='d'))
-   {
-     x-=a;
-     bToSend=true;
-   }
-   else if((keyPressed==true)&&(key=='w'))
-   {
-     y+=a;
-     bToSend=true;
-   }
-   else if((keyPressed==true)&&(key=='s'))
-   {
-     y-=a;
-     bToSend=true;
-   }    
-   else if((keyPressed==true)&&(key=='i'))
-   {
-     z+=a;
-     bToSend=true;
-   }
-   else if((keyPressed==true)&&(key=='k'))
-   {
-     z-=a;
-     bToSend=true;
-   }
-   
-
+    switch(key) {
+    case 'a': 
+        x+=a;
+    break;
+    case 'd': 
+        x-=a;
+    break;
+    case 'w': 
+        y+=a;
+    break;
+    case 's': 
+        y-=a;
+    break;
+    case 'i': 
+        z+=a;
+    break;
+    case 'k': 
+        z-=a;
+    break;
+    }
  }
- 
+ void keyReleased() 
+ {
+   bToSend=true;
+ }
+
  void send_data()
  {
    print("G1 S2");
