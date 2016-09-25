@@ -16,9 +16,9 @@
  boolean bToSend;
  String inString;
  int lf = 10;      // ASCII linefeed
- int x=150;
+ int x=0;
+ int y=0;
  int z=0;
- int y=90;
  int a=2;
  PFont font;
  void setup()
@@ -76,11 +76,11 @@
    ellipse(170,320,300,300);
    stroke(0);
    line(415,170,415,470);
-   float m=map(x,0,180,300,40);
-   float n=map(y,0,300,450,190);
+   float m=map(x,-100,100,40,300);
+   float n=map(y,-100,100,450,190);
    fill(0,0,150);
    ellipse(m,n,30,30);
-   float l=map(-z,-150,150,170,470);
+   float l=map(z,-100,100,470,170);
    l=constrain(l,170,470);
    ellipse(415,l,30,30);
  }
@@ -88,10 +88,10 @@
  {
     switch(key) {
     case 'a': 
-        x+=a;
+        x-=a;
     break;
     case 'd': 
-        x-=a;
+        x+=a;
     break;
     case 'w': 
         y+=a;
