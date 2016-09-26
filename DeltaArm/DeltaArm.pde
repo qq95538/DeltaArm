@@ -65,7 +65,7 @@
    text(int(y),115,110);
    text("Z=",165,110);
    text(int(z),195,110);
-   text("received: " + inString, 4,140);
+   
    
  }
  void picture()
@@ -87,22 +87,22 @@
  void keyPressed()
  {
     switch(key) {
-    case 'a': 
+    case 'A': 
         x-=a;
     break;
-    case 'd': 
+    case 'D': 
         x+=a;
     break;
-    case 'w': 
+    case 'W': 
         y+=a;
     break;
-    case 's': 
+    case 'S': 
         y-=a;
     break;
-    case 'i': 
+    case 'I': 
         z+=a;
     break;
-    case 'k': 
+    case 'K': 
         z-=a;
     break;
     }
@@ -114,19 +114,12 @@
 
  void send_data()
  {
-   print("G1 S2");
-   print(" X"); print(x);
-   print(" Y"); print(y);
-   print(" Z"); print(z);
-   print(" F500");
-   println();
-   port.write("G1 S2");
-   port.write(" X"); port.write(x);
-   port.write(" Y"); port.write(y);
-   port.write(" Z"); port.write(z);
-   port.write(" F500");
-   port.write(10); //NL
-   port.write(13); //CR
+   String s;
+   s = "G1 S2 X" + x + " Y" + y + " Z" + z + " F1000";
+   println(s);
+   port.write(s);
+   port.write(13);
+   port.write(10);
    bToSend=false;
  }
  
